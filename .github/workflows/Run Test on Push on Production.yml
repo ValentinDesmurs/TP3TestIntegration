@@ -44,7 +44,7 @@ jobs:
     
       - name: Envoi de notification Slack (déploiement réussi)
         if: always()
-        uses: ilovetocode2019/slack-notification-github-action@v1
+        uses: rtCamp/action-slack-notify@v2
         with:
           slack-webhook-url: https://hooks.slack.com/services/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
           slack-message: "Le déploiement de mon_application a réussi."
