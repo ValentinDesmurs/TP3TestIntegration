@@ -1,4 +1,4 @@
-name: Déploiement sur la branche de production
+name: Déploiement sur la branche de production avec notifications Slack
 
 on:
   push:
@@ -26,6 +26,13 @@ jobs:
     - name: Pousser l'image Docker vers Docker Hub
       run: docker push mon_application:latest
 
+    - name: Envoi de notification Slack (construction réussie)
+      if: always()
+      uses: ilovetocode2019/slack-notification-github-action@v1
+      with:
+        slack-webhook-url: https://hooks.slack.com/services/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
+        slack-message: "La construction de l'image Docker pour mon_application:latest a réussi."
+
   deploy:
     name: Déploiement de l'application
     runs-on: ubuntu-latest
@@ -43,3 +50,10 @@ jobs:
 
     - name: Démarrer le nouveau conteneur
       run: docker run -d --name mon_conteneur -p 8080:80 mon_application:latest
+    
+    - name: Envoi de notification Slack (déploiement réussi)
+      if: always()
+      uses: ilovetocode2019/slack-notification-github-action@v1
+      with:
+        slack-webhook-url: https://hooks.slack.com/services/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
+        slack-message: "Le déploiement de mon_application a réussi."
