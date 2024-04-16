@@ -1,0 +1,45 @@
+name: Déploiement sur la branche de production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Construction de l'image Docker
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v2
+
+    - name: Construction de l'image Docker
+      run: docker build -t mon_application:latest .
+    
+    - name: Connexion à Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Pousser l'image Docker vers Docker Hub
+      run: docker push mon_application:latest
+
+  deploy:
+    name: Déploiement de l'application
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v2
+
+    - name: Arrêter et supprimer le conteneur existant
+      run: |
+        docker stop mon_conteneur || true
+        docker rm mon_conteneur || true
+
+    - name: Démarrer le nouveau conteneur
+      run: docker run -d --name mon_conteneur -p 8080:80 mon_application:latest
