@@ -15,7 +15,9 @@ jobs:
 
     # Installation des dépendances
     - name: Installer les dépendances
-      run: npm install
+      run: |
+        npm install
+        npm install eslint --save-dev
 
     # Analyse de code statique avec ESLint
     - name: Analyse de code statique
