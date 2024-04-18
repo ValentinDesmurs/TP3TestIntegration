@@ -1,0 +1,20 @@
+name: Workflow avec déclenchement basé sur un dossier
+
+on:
+  push:
+    paths:
+      - 'TP3TestIntegration/test/**'
+  pull_request:
+    paths:
+      - 'TP3TestIntegration/test/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v2
+
+    - name: Affichage du contenu de mon-dossier
+      run: ls TP3TestIntegration/test/
