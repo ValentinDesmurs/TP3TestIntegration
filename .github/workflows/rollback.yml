@@ -6,9 +6,9 @@ on:
       - main
 
 jobs:
-  rollback:
-    if: failure() # Exécute le job seulement si le push échoue
+  test:
     runs-on: ubuntu-latest
+    if: failure() # Exécute le job seulement si le push échoue
 
     steps:
     - name: Checkout du code
@@ -17,7 +17,7 @@ jobs:
     - name: Rollback du déploiement
       run:       
         # Nous sommes dans un cas fictif donc nous n'avons pas de rollbakc a effectuer
-        # cependant si il existait une application alors on reviendrait a une version precedente avec un git rebase
+         # cependant si il existait une application alors on reviendrait a une version precedente avec un git rebase
         echo "Effectuer le rollback du déploiement"
 
     - name: Notification du rollback
