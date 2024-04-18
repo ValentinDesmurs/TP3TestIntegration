@@ -1,12 +1,14 @@
 name: Rollback en cas d'échec du déploiement
 
 on:
-  deployment_status:
+  workflow_run:
+    workflows: ["*"]
     types:
-      - failure
+      - completed
 
 jobs:
   rollback:
+    if: failure() # Exécute le job seulement si le workflow échoue
     runs-on: ubuntu-latest
 
     steps:
