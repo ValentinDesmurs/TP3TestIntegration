@@ -1,12 +1,13 @@
 name: Rollback en cas d'échec du déploiement
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["*"]
+    types:
+      - completed
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     if: failure() # Exécute le job seulement si le push échoue
 
