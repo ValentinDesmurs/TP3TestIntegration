@@ -19,7 +19,7 @@ jobs:
 
     # Analyse de code statique avec ESLint
     - name: Analyse de code statique
-      run: npm lint
+      run: npm run lint
 
     # Exécution des tests unitaires avec Jest
     - name: Tests unitaires
