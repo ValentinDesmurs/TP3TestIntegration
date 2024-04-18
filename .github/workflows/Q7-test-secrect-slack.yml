@@ -1,0 +1,30 @@
+name: Test des variables d'environnement Slack
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-slack:
+    runs-on: ubuntu-latest
+
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v2
+
+    - name: Test de l'URL Slack
+      run: |
+        if [[ ! $SLACK_WEBHOOK_URL =~ ^https://hooks.slack.com/services/.*$ ]]; then
+          echo "L'URL Slack n'est pas valide."
+          exit 1
+        fi
+
+    - name: Envoi d'un message de test à Slack
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+             --data '{"text":"Test de la validité de l\'URL Slack"}' \
+             $SLACK_WEBHOOK_URL
