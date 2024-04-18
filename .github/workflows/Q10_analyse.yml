@@ -19,7 +19,7 @@ jobs:
 
     # Analyse de code statique avec ESLint
     - name: Analyse de code statique
-      run: npx eslint .
+      run: npm run lint
 
     # Exécution des tests unitaires avec Jest
     - name: Tests unitaires
@@ -28,3 +28,8 @@ jobs:
     # Génération du rapport de couverture de tests avec Jest
     - name: Rapport de couverture de tests
       run: npm test -- --coverage
+
+    - name: Publier le rapport de couverture
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
