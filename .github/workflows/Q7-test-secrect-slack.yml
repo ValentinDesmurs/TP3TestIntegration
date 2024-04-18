@@ -22,9 +22,3 @@ jobs:
           echo "L'URL Slack n'est pas valide."
           exit 1
         fi
-
-    - name: Envoi d'un message de test à Slack
-      run: |
-        curl -X POST -H 'Content-type: application/json' \
-             --data '{"text":"Test de la validité de l\'URL Slack"}' \
-             $SLACK_WEBHOOK_URL
