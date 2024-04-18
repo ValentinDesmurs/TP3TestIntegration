@@ -1,10 +1,9 @@
 name: Rollback en cas d'échec du déploiement
 
 on:
-  workflow_run:
-    workflows: ["*"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
 
 jobs:
   build:
