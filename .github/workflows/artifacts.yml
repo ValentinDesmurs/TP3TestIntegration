@@ -1,0 +1,37 @@
+name: Workflow avec Artifacts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v2
+
+    - name: Génération du fichier
+      run: echo "Contenu du fichier généré" > fichier.txt
+
+    - name: Upload du fichier comme artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: fichier-artifact
+        path: fichier.txt
+
+  test:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+    - name: Download de l'artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: fichier-artifact
+
+    - name: Affichage du contenu du fichier
+      run: cat fichier.txt
